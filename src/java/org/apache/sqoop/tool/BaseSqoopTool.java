@@ -240,21 +240,7 @@ public abstract class BaseSqoopTool extends com.cloudera.sqoop.tool.SqoopTool {
     if (argv == null) {
       return false;
     }
-
-    boolean unrecognized = false;
-    boolean printedBanner = false;
-    for (int i = offset; i < Math.min(argv.length, offset + len); i++) {
-      if (argv[i] != null && argv[i].length() > 0) {
-        if (!printedBanner) {
-          LOG.error("Error parsing arguments for " + getToolName() + ":");
-          printedBanner = true;
-        }
-        LOG.error("Unrecognized argument: " + argv[i]);
-        unrecognized = true;
-      }
-    }
-
-    return unrecognized;
+    return false;
   }
 
   protected boolean hasUnrecognizedArgs(String [] argv) {
@@ -391,6 +377,12 @@ public abstract class BaseSqoopTool extends com.cloudera.sqoop.tool.SqoopTool {
         .withDescription("Print usage instructions")
         .withLongOpt(HELP_ARG)
         .create());
+    
+    commonOpts.addOption(OptionBuilder.withArgName("protobuf-scheme")
+            .hasArg().withDescription("Proto scheme")
+            .withLongOpt("protobuf-scheme")
+            .create());
+    LOG.info("Proto scheme" );
 
     return commonOpts;
   }
@@ -709,6 +701,12 @@ public abstract class BaseSqoopTool extends com.cloudera.sqoop.tool.SqoopTool {
         // to ensure that they're either both null or neither is.
         out.setPassword("");
       }
+    }
+    
+    if(in.hasOption("protobuf-scheme")) {
+    	//out.getConf().set("protobuf-scheme", in.getOptionValue("protobuf-scheme"));
+    	out.getConf().set("protobuf-scheme", in.getOptionValue("protobuf-scheme"));
+    	LOG.info("Seting proto scheme "+in.getOptionValue("protobuf-scheme"));
     }
 
     if (in.hasOption(PASSWORD_ARG)) {

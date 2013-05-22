@@ -67,7 +67,7 @@ public class JdbcUpdateExportJob extends ExportJobBase {
   @Override
   protected Class<? extends Mapper> getMapperClass() {
     if (inputIsSequenceFiles()) {
-      return SequenceFileExportMapper.class;
+      return ProtobufExportMapper.class;
     } else {
       return TextExportMapper.class;
     }

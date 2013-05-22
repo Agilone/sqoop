@@ -69,12 +69,12 @@
           <url>https://repository.cloudera.com/content/group/cdh-releases-rcs</url>
           <name>CDH Releases Repository</name>
           <snapshots>
-            <enabled>false</enabled>
+            <enabled>true</enabled>
           </snapshots>
         </repository>
         <repository>
           <id>cdh.snapshots.repo</id>
-          <url>https://repository.cloudera.com/content/repositories/snapshots</url>
+          <url>https://repository.cloudera.com/artifactory/repo</url>
           <name>CDH Snapshots Repository</name>
           <snapshots>
             <enabled>true</enabled>

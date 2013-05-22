@@ -29,6 +29,8 @@ import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.OutputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
+
 import com.cloudera.sqoop.manager.ConnManager;
 import com.cloudera.sqoop.manager.ExportJobContext;
 import com.cloudera.sqoop.mapreduce.ExportJobBase;
@@ -89,6 +91,10 @@ public class JdbcExportJob extends ExportJobBase {
     if (fileType == FileType.AVRO_DATA_FILE) {
       return AvroInputFormat.class;
     }
+    if(fileType == FileType.SEQUENCE_FILE) {
+    	LOG.info("Creating sequence file");
+    	return SequenceFileInputFormat.class;
+    }
     return super.getInputFormatClass();
   }
 
@@ -96,7 +102,7 @@ public class JdbcExportJob extends ExportJobBase {
   protected Class<? extends Mapper> getMapperClass() {
     switch (fileType) {
       case SEQUENCE_FILE:
-        return SequenceFileExportMapper.class;
+        return ProtobufExportMapper.class;
       case AVRO_DATA_FILE:
         return AvroExportMapper.class;
       case UNKNOWN:
